@@ -1,23 +1,27 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './App.css';
-import { logIn } from './firebaseHandler';
+import { createUser } from './firebaseHandler';
 
-function Login() {
+function Register() {
     const navigate = useNavigate()
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    
+    async function createAccountHandler(username: String, password: String){
+        const response = await createUser(username, password)
 
-    async function userAuth(username: String, password: String){
-        const response = await logIn(username, password)
-        
-        if (response) navigate('/home')
+        if(response) {
+            navigate('/login')
+        }else {
+            alert('This user already exists. Please try again.')
+        }
     }
 
     return(
         <div className="App">
             <header className="App-header">
-                Log In
+                Register Now!
                 <input
                 type="text"
                 value={username}
@@ -31,13 +35,14 @@ function Login() {
                 placeholder="Password"
                 />
 
-                <button onClick={() => userAuth(username, password)}>
-                Login
+                <button onClick={() => createAccountHandler(username, password)}>
+                Create Account!
                 </button>
 
-                <p>Dont have an account? <Link to={`/register`}>Register here!</Link></p>
+                <p>Already have an account? <Link to={`/login`}>Login here!</Link></p>
             </header>
         </div>
     )
 }
-export default Login
+
+export default Register

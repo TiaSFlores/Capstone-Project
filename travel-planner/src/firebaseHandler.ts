@@ -1,6 +1,6 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/firestore'
-import { collection, doc, getDocs, getFirestore, query, where } from 'firebase/firestore'
+import { addDoc, collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
 
 
 const firebaseConfig = {
@@ -27,16 +27,35 @@ async function getCollections(){
 
 // User log in (does not use firebaseAuth but maybe in the future?)
 async function logIn(username: String, password: String){
-  console.log("entered credentials", username, password)
-  const auth = {username: username, password: password}
+  // console.log("entered credentials", username, password)
 
   const q = query(collection(db, "Users"), where("username", "==", username), where("password", "==", password))
   const querySnapshot = await getDocs(q)
   if (querySnapshot.docs.length > 0){
     console.log("Valid user login! Redirecting...")
+    return true
+    
   } else {
     console.log("Invalid User login!")
+    return false
   }
 }
 
-export { getCollections, logIn }
+async function createUser(username: String, password: String){
+  // check if that user already exists first
+  const q = query(collection(db, "Users"), where("username", "==", username))
+  const querySnapshot = await getDocs(q)
+  if (querySnapshot.docs.length > 0){
+    console.log("Error: This user already exists! please try again.")
+    return false
+  } else {
+    await addDoc(collection(db, "Users"), {
+      username: username,
+      password: password
+    })
+    console.log("New user created! Redirecting to login page...")
+    return true
+  }
+}
+
+export { getCollections, logIn, createUser }

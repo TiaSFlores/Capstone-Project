@@ -1,11 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {getCollections} from './firebaseHandler'
 
 function App() {
-
-  getCollections()
 
   return (
     <div className="App">
