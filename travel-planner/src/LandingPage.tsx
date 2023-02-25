@@ -12,7 +12,7 @@ function LandingPage(){
 
 
             <body>
-                <p1>Travel Planner is a tool for travelers that connects them with experiences in their area. Search for experiences by location or keyword to find the perfect one for you!</p1>
+                <p>Travel Planner is a tool for travelers that connects them with experiences in their area. Search for experiences by location or keyword to find the perfect one for you!</p>
             </body>
         </div>
     )
