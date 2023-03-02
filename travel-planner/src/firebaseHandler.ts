@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/firestore'
 import { addDoc, collection, DocumentData, getDocs, getFirestore, query, where } from 'firebase/firestore'
-import {getDownloadURL, getStorage, ref} from 'firebase/storage'
+import {getDownloadURL, getStorage, ref, uploadBytes} from 'firebase/storage'
 
 const firebaseConfig = {
 apiKey: "AIzaSyCYKoU8m7KCu_WV8xQL_-qaaOOog3d1YAM",
@@ -78,4 +78,12 @@ async function getImage(imageID: string){
   return getDownloadURL(ref(storage, imageUrl))
 }
 
-export { getCollections, logIn, createUser, getExperiences, getImage }
+async function createImage(file:File, imageID: string){
+  const reference = ref(storage, imageID)
+
+  uploadBytes(reference, file).then((snapshot) => {
+    console.log('image uploaded')
+  })
+}
+
+export { getCollections, logIn, createUser, getExperiences, getImage, createImage }
