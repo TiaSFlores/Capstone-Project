@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/firestore'
 import { addDoc, collection, DocumentData, getDocs, getFirestore, query, where } from 'firebase/firestore'
-
+import {getDownloadURL, getStorage, ref} from 'firebase/storage'
 
 const firebaseConfig = {
 apiKey: "AIzaSyCYKoU8m7KCu_WV8xQL_-qaaOOog3d1YAM",
@@ -16,6 +16,7 @@ measurementId: "G-H5SCH0TVFE"
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig)
 const db = getFirestore(app)
+const storage = getStorage(app)
 
 // Get all the users in the database (this is just an example)
 async function getCollections(){
@@ -71,4 +72,10 @@ async function getExperiences(){
 
 }
 
-export { getCollections, logIn, createUser, getExperiences }
+async function getImage(imageID: string){
+  const imageUrl = "gs://travelplannercapstone.appspot.com/" + imageID
+  
+  return getDownloadURL(ref(storage, imageUrl))
+}
+
+export { getCollections, logIn, createUser, getExperiences, getImage }
