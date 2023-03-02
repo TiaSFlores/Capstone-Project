@@ -1,6 +1,8 @@
+
 import storage from "@react-native-firebase/storage";
 import ref from "@react-native-firebase/storage";
-import uploadBytes from "@react-native-firebase/storage";
+
+
 
 function uploadImage(imageID) {
     let reference = ref(storage, imageID);
