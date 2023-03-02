@@ -2,24 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
-import App from './App';
+import Home from './Home';
 import Login from './Login';
 import Register from './Register';
 import LandingPage from './LandingPage';
-import Experience from './Experience';
+import Navigation from './Navigation';
+// import Experience from './Experience';
 
 const router = createBrowserRouter([
-  {
-    path: "/experience",
-    element: <Experience/>
-  },
+  // {
+  //   path: "/experience",
+  //   element: <Experience/>
+  // },
   {
     path: "/login",
     element: <Login/>
   },
   {
     path: "/home",
-    element: <App />
+    element: <Home />
   },
   {
     path: "/register",
@@ -37,6 +38,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
+    
     <RouterProvider router={router}/>
   </React.StrictMode>
 );

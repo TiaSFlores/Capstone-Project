@@ -1,6 +1,6 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/firestore'
-import { addDoc, collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
+import { addDoc, collection, DocumentData, getDocs, getFirestore, query, where } from 'firebase/firestore'
 
 
 const firebaseConfig = {
@@ -58,4 +58,17 @@ async function createUser(username: String, password: String){
   }
 }
 
-export { getCollections, logIn, createUser }
+// Function to get all the posts 
+async function getExperiences(){
+  const posts: { id: string; data: DocumentData }[] = []
+  const q = query(collection(db, "Experiences"))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach((doc) => {
+    posts.push({id: doc.id, data: doc.data()})    
+  });
+
+  return posts
+
+}
+
+export { getCollections, logIn, createUser, getExperiences }
