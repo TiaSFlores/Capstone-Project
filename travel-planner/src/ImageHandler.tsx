@@ -1,10 +1,17 @@
-import storage from '@react-native-firebase/storage';
+import storage from "@react-native-firebase/storage";
+import ref from "@react-native-firebase/storage";
+import uploadBytes from "@react-native-firebase/storage";
 
-uploadImage(imageID) {
-    let reference = storage().ref(imageID);
+function uploadImage(imageID) {
+    let reference = ref(storage, imageID);
     let task = reference.putFile('gs://travelplannercapstone.appspot.com');
 
     task.then(() => {
         console.log('Image uploaded');
-    }).catch((e) => console.log('error uploading image: ', e));
+    });
 }
+
+// function getImage(imageID) {
+//     let reference = storage().ref(imageID);
+//     reference.map(someVar);
+// }
