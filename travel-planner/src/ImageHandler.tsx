@@ -11,6 +11,7 @@ function uploadImage(imageID) {
     });
 }
 
+//
 // function getImage(imageID) {
 //     let reference = storage().ref(imageID);
 //     reference.map(someVar);
