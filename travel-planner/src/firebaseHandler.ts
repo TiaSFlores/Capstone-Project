@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/firestore'
-import { addDoc, collection, getDocs, getFirestore, query, where } from 'firebase/firestore'
-
+import { addDoc, collection, DocumentData, getDocs, getFirestore, query, where } from 'firebase/firestore'
+import {getDownloadURL, getStorage, ref, uploadBytes} from 'firebase/storage'
 
 const firebaseConfig = {
 apiKey: "AIzaSyCYKoU8m7KCu_WV8xQL_-qaaOOog3d1YAM",
@@ -16,6 +16,7 @@ measurementId: "G-H5SCH0TVFE"
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig)
 const db = getFirestore(app)
+const storage = getStorage(app)
 
 // Get all the users in the database (this is just an example)
 async function getCollections(){
@@ -58,4 +59,31 @@ async function createUser(username: String, password: String){
   }
 }
 
-export { getCollections, logIn, createUser }
+// Function to get all the posts 
+async function getExperiences(){
+  const posts: { id: string; data: DocumentData }[] = []
+  const q = query(collection(db, "Experiences"))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach((doc) => {
+    posts.push({id: doc.id, data: doc.data()})    
+  });
+
+  return posts
+
+}
+
+async function getImage(imageID: string){
+  const imageUrl = "gs://travelplannercapstone.appspot.com/" + imageID
+  
+  return getDownloadURL(ref(storage, imageUrl))
+}
+
+async function createImage(file:File, imageID: string){
+  const reference = ref(storage, imageID)
+
+  uploadBytes(reference, file).then((snapshot) => {
+    console.log('image uploaded')
+  })
+}
+
+export { getCollections, logIn, createUser, getExperiences, getImage, createImage }
